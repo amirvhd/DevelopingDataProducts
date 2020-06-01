@@ -1,0 +1,26 @@
+---
+title: "DevelopingDataProducts second week"
+author: "Amirhossein Vahidi"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+---
+## Second week assignment
+### The numbers and figure are not necessarry meaningful
+### Refrences
+- https://developers.google.com/public-data/docs/canonical/states_csv
+- https://worldpopulationreview.com/states/
+```{r setup,echo=FALSE}
+library(leaflet)
+citiesSites <- c("California", "Texas", "Florida", "New York ", 
+                                 "Pennsylvania", "Wyoming ", "Vermont", "District of Columbia", "Alaska", "North Dakota")
+md_cities <- data.frame(pop = c(39747267,	31.968599, 21646155,19491339, 12813969,
+                                572381, 627180, 711571, 735720, 760900),
+                        lat = c(36.778261, 39.4143921, 27.664827, 43.299428, 41.203322,	43.075968, 44.558803, 	38.905985, 63.588753, 47.551493),
+                        lng = c(-119.417932, 	-99.901813, -81.515754, -74.217933, 	-77.194525,	-107.290284, -72.577841, -77.033418, -154.493062, 	-101.002012))
+md_cities$col <- ifelse( md_cities$pop > 1000000,"red","green")
+md_cities %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircles(color = md_cities$col,weight = 1, radius = sqrt(md_cities$pop) * 40,popup = citiesSites)%>%
+  addLegend(labels = c("High population", "low population"), colors = c("red","green"))
+```
